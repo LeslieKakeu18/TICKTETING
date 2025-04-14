@@ -1,46 +1,48 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "laravel-app"
-    }
-
     stages {
         stage('📥 Checkout du code') {
             steps {
-                git branch: 'master', url: 'https://github.com/LeslieKakeu18/TICKTETING.git'
+                git credentialsId: 'DOCKER_HUB_CREDENTIALS', url: 'https://github.com/LeslieKakeu18/TICKETING.git'
             }
         }
 
-        stage('🐳 Build Docker') {
+        stage('📦 Build Docker') {
             steps {
                 bat 'docker-compose build'
             }
         }
 
-           stage('🧪 Lancer les tests') {
-                steps {
-                    bat 'docker-compose run --rm app bash -c "composer install --no-interaction && php artisan test"'
-                }
+        stage('🧪 Lancer les tests') {
+            steps {
+                bat '''
+                    docker-compose run --rm app bash -c ^
+                    "php artisan config:clear && ^
+                    php artisan key:generate && ^
+                    php artisan config:cache && ^
+                    php artisan migrate --force && ^
+                    php artisan test"
+                '''
             }
-
-
-
-
+        }
 
         stage('🚀 Déploiement') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS'
+                }
+            }
             steps {
-                bat 'docker-compose up -d'
+                echo "Déploiement en cours..."
+                // Tes étapes de déploiement ici
             }
         }
     }
 
     post {
-        success {
-            echo "✅ Déploiement réussi !"
-        }
         failure {
-            echo "❌ Le pipeline a échoué."
+            echo '❌ Le pipeline a échoué.'
         }
     }
 }
