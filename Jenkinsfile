@@ -14,19 +14,19 @@ pipeline {
 
         stage('🐳 Build Docker') {
             steps {
-                sh 'docker-compose build'
+                bat 'docker-compose build'
             }
         }
 
         stage('🧪 Lancer les tests') {
             steps {
-                sh 'docker-compose run --rm app php artisan test'
+                bat 'docker-compose run --rm app php artisan test'
             }
         }
 
         stage('🚀 Déploiement') {
             steps {
-                sh 'docker-compose up -d'
+                bat 'docker-compose up -d'
             }
         }
     }
