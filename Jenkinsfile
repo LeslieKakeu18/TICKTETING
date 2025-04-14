@@ -20,12 +20,7 @@ pipeline {
                     docker-compose up -d db
                     timeout /T 20
 
-                    docker-compose run --rm app bash -c "
-                        php artisan config:clear &&
-                        php artisan config:cache &&
-                        php artisan migrate --force &&
-                        php artisan test
-                    "
+                    docker-compose run --rm app cmd /c "php artisan config:clear && php artisan config:cache && php artisan migrate --force && php artisan test"
                 '''
             }
         }
