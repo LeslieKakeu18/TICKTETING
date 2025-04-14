@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('📥 Checkout du code') {
             steps {
-                git credentialsId: 'DOCKER_HUB_CREDENTIALS', url: 'https://github.com/LeslieKakeu18/TICKETING.git'
+                git credentialsId: 'github_pat', url: 'https://github.com/LeslieKakeu18/TICKETING.git'
             }
         }
 
