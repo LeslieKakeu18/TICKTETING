@@ -27,15 +27,15 @@ pipeline {
             }
         }
 
-        stage('🚀 Déploiement') {
+        stage('🚀 Déploiement Docker') {
             when {
                 expression {
                     currentBuild.currentResult == 'SUCCESS'
                 }
             }
             steps {
-                echo "Déploiement en cours..."
-                // Tes étapes de déploiement ici
+                echo '🚢 Lancement des containers Docker...'
+                bat 'docker-compose up -d --force-recreate --remove-orphans'
             }
         }
     }
