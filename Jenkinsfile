@@ -21,18 +21,15 @@ pipeline {
         }
 
         stage('🧪 Lancer les tests') {
-            steps {
-                bat '''
-                docker-compose up -d db
-                timeout /T 20
-                docker-compose run --rm app sh -c "
-                    php artisan config:clear &&
-                    php artisan migrate --force &&
-                    php artisan test
-                "
-                '''
-            }
-        }
+    steps {
+        bat '''
+        docker-compose up -d db
+        timeout /T 20
+        docker-compose run --rm app sh -c "php artisan config:clear && php artisan migrate --force && php artisan test"
+        '''
+    }
+}
+
 
         stage('🚀 Déploiement Docker') {
             when {
