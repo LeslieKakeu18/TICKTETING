@@ -18,14 +18,14 @@ pipeline {
             steps {
                 bat '''
                     docker-compose up -d db
-                    echo "⏳ Attente de MySQL..."
-                    timeout 60 bash -c "until docker exec ticketing-db mysqladmin ping -h db --silent; do sleep 2; done"
+                    timeout /T 20
 
-                    docker-compose run --rm app bash -c ^
-                    "php artisan config:clear && ^
-                    php artisan config:cache && ^
-                    php artisan migrate --force && ^
-                    php artisan test"
+                    docker-compose run --rm app bash -c "
+                        php artisan config:clear &&
+                        php artisan config:cache &&
+                        php artisan migrate --force &&
+                        php artisan test
+                    "
                 '''
             }
         }
