@@ -18,11 +18,13 @@ pipeline {
             }
         }
 
-        stage('🧪 Lancer les tests') {
-            steps {
-                bat 'docker-compose run --rm app php artisan test'
+          stage('🧪 Lancer les tests') {
+                steps {
+                    bat 'docker-compose run --rm app bash -c "composer install --no-interaction && php artisan test"'
+                }
             }
-        }
+
+
 
         stage('🚀 Déploiement') {
             steps {
