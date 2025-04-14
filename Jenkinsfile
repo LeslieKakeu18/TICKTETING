@@ -20,7 +20,7 @@ pipeline {
 
            stage('🧪 Lancer les tests') {
                 steps {
-                    bat 'docker-compose run --rm app bash -c "cp .env.docker .env && composer install --no-interaction && php artisan key:generate --ansi && php artisan test"'
+                    bat 'docker-compose run --rm app bash -c "cp .env.docker .env && composer install --no-interaction && php artisan test"'
                 }
             }
 
