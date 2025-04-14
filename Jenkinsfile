@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('📥 Checkout du code') {
             steps {
-                git branch: 'main', url: 'https://github.com/LeslieKakeu18/TICKTETING.git'
+                git branch: 'master', url: 'https://github.com/LeslieKakeu18/TICKTETING.git'
             }
         }
 
