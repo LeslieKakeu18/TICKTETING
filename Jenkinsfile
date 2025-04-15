@@ -22,8 +22,9 @@ pipeline {
             steps {
                 bat '''
                 docker-compose up -d db
-                timeout /T 20
-                docker-compose run --rm app sh -c "php artisan migrate --force && php artisan test"
+                timeout /T 20 >nul
+
+                docker-compose run --rm app sh -c "until mysql -h db -uroot -proot -e 'SELECT 1' > /dev/null 2>&1; do echo '⏳ En attente de MySQL...'; sleep 2; done; echo '✅ MySQL est prêt !'; php artisan migrate --force && php artisan test"
                 '''
             }
         }
