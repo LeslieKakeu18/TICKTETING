@@ -17,6 +17,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # ✅ Copier tout le projet AVANT d'installer les dépendances
 COPY . .
 
+# Injecte l'environnement pour Jenkins
+COPY .env.jenkins .env
+
 # ✅ Fixer les permissions AVANT d'installer (sinon erreurs possible sur artisan)
 RUN chown -R www-data:www-data /var/www && \
     chmod -R 775 /var/www/storage /var/www/bootstrap/cache
